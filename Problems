@@ -1,0 +1,137 @@
+'''txt = 'Ilko89 is a biker'
+
+x = re.search('\w', txt)
+print(x.start(), x.end())
+
+if x:
+    print('match')
+else:
+    print('no match')  
+
+### PROBLEM_1 ###    
+import re
+text = input()
+pattern = r'\b[A-Z][a-z]+ [A-Z][a-z]+\b'
+
+valid_names = re.findall(pattern, text)
+matched_names = re.match(pattern, text)
+print(matched_names.group())
+names = re.finditer(pattern, text) 
+for obj in names:
+    print(obj.groupdict())
+print(' '.join(valid_names)) 
+
+import re
+
+text = 'ilpeka89@gmail.com'
+pattern = r'[0-9]'
+matches = re.finditer(pattern, text)
+print([obj.group() for obj in matches])
+
+### PROBLEM_1 ###
+
+import re
+
+text = input()
+pattern = r'\b[A-Z][a-z]+ [A-Z][a-z]+\b'
+
+valid_output = re.search(pattern, text)
+if valid_output:
+    print(valid_output.group())
+else:
+    print('No match') 
+
+
+### PROBLEM_2 ###
+import re
+text = input()
+pattern = r'\+359( |-)2\1\d{3}\1\d{4}\b'
+
+valid_numbers = re.finditer(pattern, text)
+
+print(', '.join([obj.group() for obj in valid_numbers])) 
+
+
+### PROBLEM_3 ###
+import re
+
+text = input()
+pattern = r'(?P<Day>\d{2})(?P<sep>[\.\-\\/])(?P<Month>[A-Z][a-z]{2})(?P=sep)(?P<Year>\d{4})'
+
+valid_dates = [obj.groupdict() for obj in re.finditer(pattern, text)]
+
+for date in valid_dates:
+    #print(f'Day: {date[:2]}, Month: {date[3:6]}, Year: {date[7:11]}')
+    print(f"Day: {date['Day']}, Month: {date['Month']}, Year: {date['Year']}") 
+
+
+### PROBLEM_4 ###
+import re
+
+text = input()
+pattern = r'(^|(?<=\s))-?\d+(\.\d+)?($|(?=\s))'
+
+valid_numbers = [match_obj.group() for match_obj in re.finditer(pattern, text)]
+print(' '.join(valid_numbers))  
+
+
+### PROBLEM_1 ###
+import re
+
+text = input()
+pattern = r'\d+'
+output = []
+
+while text != '':
+    output.extend(re.findall(pattern, text))
+    text = input()
+    
+print(' '.join(output)) 
+
+
+### PROBLEM_2 ###
+import re 
+pattern = r'(^_|(?<=\s_))[A-Za-z0-9]+\b'
+
+text = input()
+valid_vars = [obj.group() for obj in re.finditer(pattern, text)]
+
+out = []
+for var in valid_vars:
+    without_underscore = var[1:]
+    out.append(without_underscore) 
+
+print(*valid_vars, sep=',')  '''  
+    
+### PROBLEM_3 ###
+import re
+
+sentence = input()
+word1 = input()
+word2 = input()
+pattern = rf'(\b{word1}\b)|(\b{word2}\b)'
+
+matches = [obj.group(2) for obj in re.finditer(pattern, sentence, re.IGNORECASE)]
+print(matches,len(matches))   
+
+
+
+### PROBLEM_5 ###
+import re
+
+pattern = rf'>>(?P<name>[A-Za-z]+)<<(?P<price>\d+(\.\d+)?)\!(?P<quantity>\d+)'
+bought_stuff = []
+while True:
+    command = input()
+    if command == 'Purchase':
+        break
+    matched_command = [match_obj.groupdict() for match_obj in re.finditer(pattern, command)]
+    bought_stuff.extend(matched_command)
+
+money = 0    
+print('Bought furniture:')
+for item in bought_stuff:
+    print(f'{item["name"]}')
+    money += float(item['price'])*int(item['quantity'])
+
+print(f'Total money spend: {money:.2f}') 
